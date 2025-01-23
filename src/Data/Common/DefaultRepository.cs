@@ -34,18 +34,15 @@ internal class DefaultRepository<TEntity> : IRepository<TEntity>
     public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         await DbSet.AddAsync(entity, cancellationToken).ConfigureAwait(false);
-        await context.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 
-    public Task RemoveAsync(TEntity entity, CancellationToken cancellationToken)
+    public void Remove(TEntity entity)
     {
         DbSet.Remove(entity);
-        return context.SaveChangesAsync(cancellationToken);
     }
 
-    public Task UpdateAsync(TEntity entity, CancellationToken cancellationToken)
+    public void Update(TEntity entity)
     {
         DbSet.Update(entity);
-        return context.SaveChangesAsync(cancellationToken);
     }
 }
