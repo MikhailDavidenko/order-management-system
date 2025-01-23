@@ -9,9 +9,9 @@ public interface IRepository<TEntity>
 
     Task<IReadOnlyList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken);
 
-    Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);
+    void Update(TEntity entity);
 
     Task AddAsync(TEntity entity, CancellationToken cancellationToken);
 
-    Task RemoveAsync(TEntity entity, CancellationToken cancellationToken);
+    void Remove(TEntity entity);
 }

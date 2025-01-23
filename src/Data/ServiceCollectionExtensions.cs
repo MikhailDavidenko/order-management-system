@@ -16,6 +16,14 @@ namespace OrderManagementSystem.Data;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
+    /// Регистрирует UnitOfWork
+    /// </summary>
+    public static IServiceCollection AddUnitOfWork(
+        this IServiceCollection services)
+        => services
+            .AddScoped<IUnitOfWork, UnitOfWork>();
+    
+    /// <summary>
     /// Регистрирует репозитории
     /// </summary>
     public static IServiceCollection AddRepositories(
