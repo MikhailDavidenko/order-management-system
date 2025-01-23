@@ -21,4 +21,8 @@ public sealed class AppDbContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
     }
+    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder
+            .UseSnakeCaseNamingConvention();// Все имена таблиц и столбцов будут в SnakeCase
 }
