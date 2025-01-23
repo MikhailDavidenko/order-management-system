@@ -1,4 +1,4 @@
-namespace WarehouseManagementSystem.Domain;
+namespace OrderManagementSystem.Domain;
 
 /// <summary>
 ///     Модель Товара.
