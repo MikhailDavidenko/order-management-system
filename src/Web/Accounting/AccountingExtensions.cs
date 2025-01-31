@@ -29,7 +29,8 @@ public static class AccountingExtensions
                         return Task.CompletedTask;
                     }
                 };
-            });
+            })
+            .AddBearerToken(IdentityConstants.BearerScheme);
         services.AddAuthorization();
 
         services.AddIdentityCore<ApplicationUser>()

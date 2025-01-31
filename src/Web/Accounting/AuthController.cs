@@ -10,9 +10,9 @@ namespace OrderManagementSystem.Web.Accounting;
 [Route("[controller]")]
 public sealed class AuthController : ControllerBase
 {
-    private readonly SignInManager<ApplicationUser > _signInManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
 
-    public AuthController(SignInManager<ApplicationUser > signInManager)
+    public AuthController(SignInManager<ApplicationUser> signInManager)
     {
         _signInManager = signInManager;
     }

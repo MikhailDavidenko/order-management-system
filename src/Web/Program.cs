@@ -1,6 +1,9 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 using OrderManagementSystem.Application;
 using OrderManagementSystem.Data;
+using OrderManagementSystem.Data.Common;
+using OrderManagementSystem.Domain;
 using OrderManagementSystem.Web;
 using OrderManagementSystem.Web.Accounting;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
@@ -11,7 +14,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.ConfigureIdentity();
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication(IdentityConstants.ApplicationScheme)
+    .AddCookie(IdentityConstants.ApplicationScheme)
+    .AddBearerToken(IdentityConstants.BearerScheme);
+
+builder.Services.AddIdentityCore<ApplicationUser>()
+    .AddRoles<IdentityRole<Guid>>()
+    .AddSignInManager<SignInManager<ApplicationUser>>()
+    .AddEntityFrameworkStores<AppDbContext>();/*
+    .AddApiEndpoints();*/
 
 builder.Services.AddContext();
 builder.Services.AddUnitOfWork();

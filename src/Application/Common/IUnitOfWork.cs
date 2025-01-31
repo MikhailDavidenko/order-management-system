@@ -3,7 +3,7 @@ using OrderManagementSystem.Application.OrderItems;
 using OrderManagementSystem.Application.Orders;
 using OrderManagementSystem.Application.Products;
 
-namespace OrderManagementSystem.Data.Common;
+namespace OrderManagementSystem.Application.Common;
 
 public interface IUnitOfWork : IDisposable
 {

@@ -1,6 +1,6 @@
 namespace OrderManagementSystem.Contracts.Accounting;
 
-public class UserResponse
+public sealed class UserResponse
 {
     public Guid? Id { get; init; }
     

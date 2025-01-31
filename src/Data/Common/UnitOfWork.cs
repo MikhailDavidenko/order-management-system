@@ -1,3 +1,4 @@
+using OrderManagementSystem.Application.Common;
 using OrderManagementSystem.Application.Customers;
 using OrderManagementSystem.Application.OrderItems;
 using OrderManagementSystem.Application.Orders;
@@ -23,9 +24,11 @@ internal sealed class UnitOfWork : IUnitOfWork
     }
 
     public ICustomerRepository Customers { get; private set; }
+    
     public IOrderRepository Orders { get; private set; }
     
     public IOrderItemRepository OrderItems { get; private set; }
+    
     public IProductRepository Products { get; private set; }
 
     public int Complete()

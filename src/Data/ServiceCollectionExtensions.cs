@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using OrderManagementSystem.Application.Common;
 using OrderManagementSystem.Application.Customers;
 using OrderManagementSystem.Application.OrderItems;
 using OrderManagementSystem.Application.Orders;

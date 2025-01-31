@@ -67,7 +67,6 @@ public sealed class UsersController : ControllerBase
         return Created("api/v1/users/{id}", userDto);
     }
     
-    [Authorize]
     [HttpGet("{userId}")]
     public async Task<UserResponse> GetUserByIdAsync([FromRoute] Guid userId)
     {

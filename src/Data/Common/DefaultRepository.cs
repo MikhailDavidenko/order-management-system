@@ -24,10 +24,11 @@ internal class DefaultRepository<TEntity> : IRepository<TEntity>
             .FirstOrDefaultAsync(predicate, cancellationToken);
     }
 
-    public async Task<IReadOnlyList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<TEntity>> GetAllAsync(int limit, int offset, CancellationToken cancellationToken)
     {
         return await DbSet
-            .Where(predicate)
+            .Skip(offset)
+            .Take(limit)
             .ToListAsync(cancellationToken);
     }
 
