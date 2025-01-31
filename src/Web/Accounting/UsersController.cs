@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +7,7 @@ using OrderManagementSystem.Domain;
 
 namespace OrderManagementSystem.Web.Accounting;
 
-//[Authorize]
+[Authorize(Roles = ApplicationRoleNames.Manager)]
 [ApiController]
 [Route("api/v1/[controller]")]
 public sealed class UsersController : ControllerBase
@@ -38,7 +39,7 @@ public sealed class UsersController : ControllerBase
         
         var user = new ApplicationUser 
         {
-            UserName = userRequest.Name,
+            UserName = userRequest.Email,
             Email = userRequest.Email,
             CustomerId = userRequest.CustomerId
         };
@@ -57,7 +58,7 @@ public sealed class UsersController : ControllerBase
         var userDto = new UserResponse
         {
             Id = user.Id,
-            Name = userRequest.Name,
+            Name = userRequest.Email,
             Email = userRequest.Email,
             CustomerId = userRequest.CustomerId,
             RoleNames = new List<string>() { userRole }
@@ -66,6 +67,7 @@ public sealed class UsersController : ControllerBase
         return Created("api/v1/users/{id}", userDto);
     }
     
+    [Authorize]
     [HttpGet("{userId}")]
     public async Task<UserResponse> GetUserByIdAsync([FromRoute] Guid userId)
     {
@@ -127,7 +129,7 @@ public sealed class UsersController : ControllerBase
             return NotFound($"Пользователь {userId} не найден");
         }
 
-        user.UserName = userRequest.Name;
+        user.UserName = userRequest.Email;
         user.Email = userRequest.Email;
         user.CustomerId = userRequest.CustomerId;
 
@@ -148,7 +150,7 @@ public sealed class UsersController : ControllerBase
         var userResponse = new UserResponse
         {
             Id = user.Id,
-            Name = userRequest.Name,
+            Name = userRequest.Email,
             Email = userRequest.Email,
             CustomerId = userRequest.CustomerId,
             RoleNames = roleNames.ToList()

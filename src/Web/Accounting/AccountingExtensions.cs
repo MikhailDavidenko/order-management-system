@@ -1,9 +1,44 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using OrderManagementSystem.Data.Common;
+using OrderManagementSystem.Domain;
 
 namespace OrderManagementSystem.Web.Accounting;
 
 public static class AccountingExtensions
 {
+    /// <summary>
+    /// Регистрирует Identity сервисы
+    /// </summary>
+    public static IServiceCollection ConfigureIdentity(
+        this IServiceCollection services)
+    {
+        services.AddAuthentication(IdentityConstants.ApplicationScheme)
+            .AddCookie(IdentityConstants.ApplicationScheme, options =>
+            {
+                options.Events = new CookieAuthenticationEvents
+                {
+                    OnRedirectToAccessDenied = context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        return Task.CompletedTask;
+                    },
+                    OnRedirectToLogin = context =>
+                    {
+                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+        services.AddAuthorization();
+
+        services.AddIdentityCore<ApplicationUser>()
+            .AddRoles<IdentityRole<Guid>>()
+            .AddEntityFrameworkStores<AppDbContext>();
+
+        return services;
+    }
+    
     public static async Task InitializeRolesAsync(this IApplicationBuilder app)
     {
         using IServiceScope scope = app.ApplicationServices.CreateScope();
