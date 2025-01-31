@@ -4,7 +4,7 @@ using OrderManagementSystem.Domain;
 
 namespace OrderManagementSystem.Application.Customers;
 
-public class CustomerService : ICustomerService
+public sealed class CustomerService : ICustomerService
 {
     private readonly IUnitOfWork unitOfWork;
 
@@ -19,7 +19,7 @@ public class CustomerService : ICustomerService
     public async Task<Customer> GetCustomerByIdAsync(Guid id, CancellationToken cancellationToken)
         => await unitOfWork.Customers
             .GetFirstOrDefaultAsync(x => x.Id == id, cancellationToken)
-                ?? throw new EntityNotFoundException($"Пользователь {id} не найден");
+                ?? throw new EntityNotFoundException($"Заказчик {id} не найден");
 
     public async Task<Customer> AddCustomerAsync(CreateCustomerCommand command, CancellationToken cancellationToken)
     {
@@ -39,7 +39,7 @@ public class CustomerService : ICustomerService
     public async Task<Customer> UpdateCustomerAsync(UpdateCustomerCommand command, CancellationToken cancellationToken)
     {
         var customer = await unitOfWork.Customers.GetFirstOrDefaultAsync(c => c.Id == command.Id, cancellationToken)
-                       ?? throw new EntityNotFoundException($"Пользователь {command.Id} не найден");
+                       ?? throw new EntityNotFoundException($"Заказчик {command.Id} не найден");
         
         customer.Update(command.Name, command.Code, command.Address, command.Discount);
         

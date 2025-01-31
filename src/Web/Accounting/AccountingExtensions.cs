@@ -31,10 +31,15 @@ public static class AccountingExtensions
                 };
             })
             .AddBearerToken(IdentityConstants.BearerScheme);
-        services.AddAuthorization();
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(ApplicationRoleNames.AllowAnyPolicy,
+                policy => policy.RequireRole(ApplicationRoleNames.AllRoles));
+        });
 
         services.AddIdentityCore<ApplicationUser>()
             .AddRoles<IdentityRole<Guid>>()
+            .AddSignInManager<SignInManager<ApplicationUser>>()
             .AddEntityFrameworkStores<AppDbContext>();
 
         return services;

@@ -2,7 +2,7 @@ using OrderManagementSystem.Domain;
 
 namespace OrderManagementSystem.Application.Accounting;
 
-public class UserService : IUserService
+public sealed class UserService : IUserService
 {
     
     

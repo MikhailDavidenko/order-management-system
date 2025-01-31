@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using OrderManagementSystem.Application.Accounting;
 using OrderManagementSystem.Application.Customers;
+using OrderManagementSystem.Application.Products;
 
 namespace OrderManagementSystem.Application;
 
@@ -14,7 +15,7 @@ public static class ServiceCollectionExtensions
         => services
             .AddTransient<IUserService, UserService>()
             /*.AddTransient<IOrderService, OrderService>()
-            .AddTransient<IOrderItemService, OrderItemService>()
-            .AddTransient<IProductService, ProductService>()*/
+            .AddTransient<IOrderItemService, OrderItemService>()*/
+            .AddTransient<IProductService, ProductService>()
             .AddTransient<ICustomerService, CustomerService>();
 }
