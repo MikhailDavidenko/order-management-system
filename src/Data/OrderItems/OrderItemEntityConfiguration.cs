@@ -19,9 +19,12 @@ public sealed class OrderItemEntityConfiguration : IEntityTypeConfiguration<Orde
         builder.Property(oi => oi.ItemPrice)
             .IsRequired()
             .HasColumnType("decimal(10, 2)");
+        
+        builder.Property(c => c.OrderId)
+            .ValueGeneratedNever();
 
         builder.HasOne<Order>()
-            .WithMany()
+            .WithMany(o => o.OrderItems)
             .HasForeignKey(oi => oi.OrderId)
             .OnDelete(DeleteBehavior.Cascade);
 

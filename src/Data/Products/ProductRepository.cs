@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using OrderManagementSystem.Application.Products;
 using OrderManagementSystem.Data.Common;
 using OrderManagementSystem.Domain;
@@ -12,5 +14,14 @@ internal sealed class ProductRepository : DefaultRepository<Product>, IProductRe
         : base(context)
     {
         this.context = context;
+    }
+    
+    public async Task<IReadOnlyList<Product>> GetAllWithWhereAsync(
+        Expression<Func<Product, bool>> predicate,
+        CancellationToken cancellationToken)
+    {
+        return await context.Products
+            .Where(predicate)
+            .ToListAsync(cancellationToken);
     }
 }

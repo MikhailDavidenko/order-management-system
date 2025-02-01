@@ -120,6 +120,11 @@ public sealed class UsersController : ControllerBase
         {
             return BadRequest($"Роль {userRequest.NewRoleName} не найдена");
         }
+
+        if (userRequest.NewRoleName == ApplicationRoleNames.Customer && userRequest.CustomerId == null)
+        {
+            return BadRequest("У пользователя с ролью Заказчик не может отсутствовать CustomerId");
+        }
         
         var user = await userManager.FindByIdAsync(userId.ToString());
 

@@ -60,6 +60,5 @@ public sealed class ProductService : IProductService
 
             await unitOfWork.CompleteAsync(cancellationToken);
         }
-        
     }
 }
