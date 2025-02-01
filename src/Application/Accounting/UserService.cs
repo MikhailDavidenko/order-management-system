@@ -4,8 +4,6 @@ namespace OrderManagementSystem.Application.Accounting;
 
 public sealed class UserService : IUserService
 {
-    
-    
     public Task<ApplicationUser> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();

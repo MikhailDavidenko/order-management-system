@@ -21,6 +21,16 @@ public sealed class ProductResponse
     ///     Цена за единицу.
     /// </summary>
     public decimal? Price { get; init; }
+    
+    /// <summary>
+    ///     Цена за единицу с учетом скидки.
+    /// </summary>
+    public decimal? PriceWithDiscount { get; init; }
+    
+    /// <summary>
+    ///     Скидка.
+    /// </summary>
+    public decimal? Discount { get; init; }
 
     /// <summary>
     ///     Категория товара.

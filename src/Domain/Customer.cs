@@ -41,9 +41,9 @@ public sealed class Customer
 
     public static Customer Create(string name, string code, string address, decimal? discount)
     {
-        if (discount != null && discount < 0)
+        if (discount != null && (discount < 0 || discount > 100))
         {
-            throw new ArgumentException("Скидка не может быть отрицательной");
+            throw new ArgumentException("Скидка не может быть отрицательной или больше 100");
         }
 
         return new(Guid.NewGuid(), name, code, address, discount);
@@ -51,9 +51,9 @@ public sealed class Customer
     
     public void Update(string name, string code, string address, decimal? discount)
     {
-        if (discount != null && discount < 0)
+        if (discount != null && (discount < 0 || discount > 100))
         {
-            throw new ArgumentException("Скидка не может быть отрицательной");
+            throw new ArgumentException("Скидка не может быть отрицательной или больше 100");
         }
 
         Name = name;

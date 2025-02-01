@@ -31,4 +31,11 @@ public sealed class AuthController : ControllerBase
 
         return Ok(userId);
     }
+    
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return Ok();
+    }
 }
