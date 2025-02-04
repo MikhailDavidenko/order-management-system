@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import store from '../store'; // Импортируйте ваше хранилище Vuex
-import Login from '../views/LoginPage.vue'; // Импортируйте ваш компонент логина
+import store from '../store';
+import Login from '../views/LoginPage.vue';
 
 import UserManagement from '../components/manager/UserManagement.vue';
 import CustomerManagement from '../components/manager/CustomerManagement.vue';
@@ -15,7 +15,7 @@ import OrderList from '../components/customer/OrderList.vue';
 const routes = [
     {
         path: '/',
-        name: 'Login',
+        name: 'rootLogin',
         component: Login,
     },
     {
