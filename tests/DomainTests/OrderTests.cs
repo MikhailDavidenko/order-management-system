@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using FluentAssertions;
 using OrderManagementSystem.Domain;
+using Xunit;
 
 namespace OrderManagementSystem.DomainTests;
 

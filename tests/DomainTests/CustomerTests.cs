@@ -1,5 +1,6 @@
 using FluentAssertions;
 using OrderManagementSystem.Domain;
+using Xunit;
 
 namespace OrderManagementSystem.DomainTests;
 
