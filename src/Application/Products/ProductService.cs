@@ -13,6 +13,9 @@ public sealed class ProductService : IProductService
         this.unitOfWork = unitOfWork;
     }
     
+    public Task<int> GetProductsCountAsync(CancellationToken cancellationToken)
+        => unitOfWork.Products.GetProductsCountAsync(cancellationToken);
+    
     public Task<IReadOnlyList<Product>> GetAllProductsAsync(int limit, int offset, CancellationToken cancellationToken)
         => unitOfWork.Products.GetAllAsync(limit, offset, cancellationToken);
 
@@ -25,7 +28,6 @@ public sealed class ProductService : IProductService
     {
         var product = Product.Create(
             command.Name,
-            command.Code,
             command.Price,
             command.Category);
         

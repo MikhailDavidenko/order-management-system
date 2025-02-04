@@ -10,6 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder.WithOrigins("http://localhost:5173")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials());
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -28,6 +37,8 @@ var app = builder.Build();
 
 app.UseExceptionHandler();
 
+app.UseCors("AllowSpecificOrigin");
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -41,6 +52,9 @@ app.UseHttpsRedirection();
 await app.InitializeRolesAsync();
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Для теста при запуске создается Менеджер, если его нет
+await app.CreateUserAsync();
 
 app.MapControllers();
 

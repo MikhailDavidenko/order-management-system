@@ -16,6 +16,9 @@ public sealed class OrderService : IOrderService
         this.unitOfWork = unitOfWork;
     }
     
+    public Task<int> GetOrdersCountAsync(CancellationToken cancellationToken)
+        => unitOfWork.Orders.GetOrdersCountAsync(cancellationToken);
+    
     public async Task<Order> GetOrderByIdAsync(Guid orderId, Guid? customerId, CancellationToken cancellationToken)
     {
         Expression<Func<Order, bool>> predicate = customerId is not null 
@@ -28,12 +31,23 @@ public sealed class OrderService : IOrderService
                ?? throw new EntityNotFoundException($"Заказ {orderId} не найден");
     }
 
-    public async Task<IReadOnlyList<Order>> GetOrdersAsync(int limit, int offset, Guid? customerId = null, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<Order>> GetOrdersAsync(
+        int limit,
+        int offset,
+        OrderStatus? status = null,
+        Guid? customerId = null,
+        CancellationToken cancellationToken = default)
     {
-        Expression<Func<Order, bool>> predicate = customerId is not null 
+        Expression<Func<Order, bool>> predicate = customerId is not null
             ? x => x.CustomerId == customerId.Value
             : x => true;
-        
+
+        if (status is not null)
+        {
+            predicate = predicate.And(x => x.Status == status.Value);
+            
+        }
+
         var orders = await unitOfWork.Orders.GetAllWithItemsAsync(predicate, limit, offset, cancellationToken);
         
         return orders;

@@ -27,6 +27,7 @@ public sealed class OrdersController : ControllerBase
     public async Task<IReadOnlyList<OrderResponse>> GetOrdersAsync(
         [FromQuery] int? offset,
         [FromQuery] int? limit,
+        [FromQuery] OrderStatus? status,
         CancellationToken cancellationToken)
     {
         if (offset < 0 || limit < 1)
@@ -36,13 +37,22 @@ public sealed class OrdersController : ControllerBase
 
         var customerId = await GetCustomerIdAsync();
 
-        var orders = await orderService.GetOrdersAsync(limit ?? 10, offset ?? 0, customerId, cancellationToken);
+        var orders = await orderService.GetOrdersAsync(limit ?? 10, offset ?? 0, status, customerId, cancellationToken);
         
         var ordersResponses = orders
             .Select(x => x.MapToOrderResponse())
             .ToList();
         
         return ordersResponses;
+    }
+    
+    [Authorize(Policy = ApplicationRoleNames.AllowAnyPolicy)]
+    [HttpGet("count")]
+    public async Task<int> GetOrdersTotalCountAsync(CancellationToken cancellationToken)
+    {
+        var count = await orderService.GetOrdersCountAsync(cancellationToken);
+        
+        return count;
     }
     
     [Authorize(Policy = ApplicationRoleNames.AllowAnyPolicy)]
@@ -119,7 +129,7 @@ public sealed class OrdersController : ControllerBase
 
     private async Task<Guid?> GetCustomerIdAsync()
     {
-        if(User.IsInRole(ApplicationRoleNames.Customer))
+        if(!User.IsInRole(ApplicationRoleNames.Manager))
         {
             var user = await userManager.GetUserAsync(User) ?? throw new EntityNotFoundException("Пользователь не найден");
             

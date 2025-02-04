@@ -8,7 +8,6 @@ public sealed class CreateCustomerValidator : AbstractValidator<CreateCustomerRe
     public CreateCustomerValidator()
     {
         RuleFor(x => x.Address).NotEmpty();
-        RuleFor(x => x.Code).NotEmpty();
         RuleFor(x => x.Name).NotEmpty();
         RuleFor(x => x.Discount).GreaterThanOrEqualTo(0);
     }

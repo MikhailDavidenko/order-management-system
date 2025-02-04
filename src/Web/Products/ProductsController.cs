@@ -65,6 +65,15 @@ public sealed class ProductsController : ControllerBase
         return product.MapToProductResponse(discount);
     }
     
+    [Authorize(Policy = ApplicationRoleNames.AllowAnyPolicy)]
+    [HttpGet("count")]
+    public async Task<int> GetTotalCountProductAsync(CancellationToken cancellationToken)
+    {
+        var count = await productService.GetProductsCountAsync(cancellationToken);
+        
+        return count;
+    }
+    
     [Authorize(Roles = ApplicationRoleNames.Manager)]
     [HttpPost]
     public async Task<ProductResponse> CreateProductAsync(
@@ -74,7 +83,6 @@ public sealed class ProductsController : ControllerBase
         var command = new CreateProductCommand
         (
             request.Name,
-            request.Code,
             request.Price.Value,
             request.Category
         );

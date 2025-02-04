@@ -56,7 +56,6 @@ public sealed class CustomersController : ControllerBase
         var command = new CreateCustomerCommand
             (
                 request.Name,
-                request.Code,
                 request.Address,
                 request.Discount
             );

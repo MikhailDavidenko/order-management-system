@@ -24,4 +24,7 @@ internal sealed class ProductRepository : DefaultRepository<Product>, IProductRe
             .Where(predicate)
             .ToListAsync(cancellationToken);
     }
+    
+    public Task<int> GetProductsCountAsync(CancellationToken cancellationToken)
+        => context.Products.CountAsync(cancellationToken);
 }

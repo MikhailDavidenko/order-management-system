@@ -15,4 +15,6 @@ public interface IOrderRepository : IRepository<Order>
         CancellationToken cancellationToken = default);
 
     Task<Order?> GetOrderWithItemsAsync(Expression<Func<Order, bool>> predicate, CancellationToken cancellationToken);
+    
+    Task<int> GetOrdersCountAsync(CancellationToken cancellationToken);
 }

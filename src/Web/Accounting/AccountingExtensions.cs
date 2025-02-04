@@ -62,4 +62,41 @@ public static class AccountingExtensions
             }
         }
     }
+    
+    public static async Task CreateUserAsync(this IApplicationBuilder app)
+    {
+        using IServiceScope scope = app.ApplicationServices.CreateScope();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        
+        var user = new ApplicationUser 
+        {
+            Email = "manager@local.ru",
+            UserName = "manager@local.ru"
+        };
+        
+        string password = "Qwerty123!@#";
+
+        var existingUser = await userManager.FindByEmailAsync(user.Email);
+        if (existingUser != null)
+        {
+            return;
+        }
+        
+        var result = await userManager.CreateAsync(user, password);
+        if (!result.Succeeded)
+        {
+            throw new InvalidOperationException($"Ошибка при создании пользователя: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+        }
+
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+        if (await roleManager.RoleExistsAsync(ApplicationRoleNames.Manager))
+        {
+            await userManager.AddToRoleAsync(user, ApplicationRoleNames.Manager);
+        }
+        else
+        {
+            throw new InvalidOperationException($"Роль '{ApplicationRoleNames.Manager}' не существует.");
+        }
+        
+    }
 }

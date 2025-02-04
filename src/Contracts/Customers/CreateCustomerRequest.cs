@@ -8,11 +8,6 @@ public sealed class CreateCustomerRequest
     public string? Name { get; set; }
 
     /// <summary>
-    ///     Код заказчика.
-    /// </summary>
-    public string? Code { get; set; }
-
-    /// <summary>
     ///     Адрес заказчика.
     /// </summary>
     public string? Address { get; set; }

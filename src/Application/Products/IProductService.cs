@@ -4,6 +4,8 @@ namespace OrderManagementSystem.Application.Products;
 
 public interface IProductService
 {
+    Task<int> GetProductsCountAsync(CancellationToken cancellationToken);
+    
     Task<IReadOnlyList<Product>> GetAllProductsAsync(int limit, int offset, CancellationToken cancellationToken);
     
     Task<Product> GetProductByIdAsync(Guid id, CancellationToken cancellationToken);

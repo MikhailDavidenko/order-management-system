@@ -7,7 +7,6 @@ using OrderManagementSystem.Domain;
 
 namespace OrderManagementSystem.Web.Accounting;
 
-[Authorize(Roles = ApplicationRoleNames.Manager)]
 [ApiController]
 [Route("api/v1/[controller]")]
 public sealed class UsersController : ControllerBase
@@ -24,6 +23,7 @@ public sealed class UsersController : ControllerBase
         this.roleManager = roleManager;
     }
     
+    [Authorize(Roles = ApplicationRoleNames.Manager)]
     [HttpPost]
     public async Task<IActionResult> CreateUserAsync([FromBody] RegisterUserRequest userRequest)
     {
@@ -67,6 +67,7 @@ public sealed class UsersController : ControllerBase
         return Created("api/v1/users/{id}", userDto);
     }
     
+    [Authorize(Policy = ApplicationRoleNames.AllowAnyPolicy)]
     [HttpGet("{userId}")]
     public async Task<UserResponse> GetUserByIdAsync([FromRoute] Guid userId)
     {
@@ -86,6 +87,7 @@ public sealed class UsersController : ControllerBase
         return userResponse;
     }
     
+    [Authorize(Roles = ApplicationRoleNames.Manager)]
     [HttpGet]
     public async Task<IReadOnlyList<UserResponse>> GetUsersAsync(
         [FromQuery] int? offset,
@@ -110,6 +112,7 @@ public sealed class UsersController : ControllerBase
         return userResponses;
     }
 
+    [Authorize(Roles = ApplicationRoleNames.Manager)]
     [HttpPut("{userId}")]
     public async Task<IActionResult> UpdateUserAsync(
         [FromRoute] Guid userId,
@@ -163,6 +166,7 @@ public sealed class UsersController : ControllerBase
         return Ok(userResponse);
     }
 
+    [Authorize(Roles = ApplicationRoleNames.Manager)]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser (
         [FromRoute] Guid id,

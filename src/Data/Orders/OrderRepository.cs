@@ -47,4 +47,7 @@ internal sealed class OrderRepository : DefaultRepository<Order>, IOrderReposito
             .Take(limit)
             .ToListAsync(cancellationToken);
     }
+    
+    public Task<int> GetOrdersCountAsync(CancellationToken cancellationToken)
+        => context.Orders.CountAsync(cancellationToken);
 }

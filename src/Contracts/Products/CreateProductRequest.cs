@@ -8,11 +8,6 @@ public sealed class CreateProductRequest
     public string? Name { get; set; }
 
     /// <summary>
-    ///     Код заказчика.
-    /// </summary>
-    public string? Code { get; set; }
-
-    /// <summary>
     ///     Цена за единицу.
     /// </summary>
     public decimal? Price { get; set; }

@@ -25,7 +25,6 @@ public sealed class CustomerService : ICustomerService
     {
         var customer = Customer.Create(
             command.Name,
-            command.Code,
             command.Address,
             command.Discount);
         
@@ -56,9 +55,19 @@ public sealed class CustomerService : ICustomerService
 
         if (customer is not null)
         {
-            unitOfWork.Customers.Remove(customer);
+            
 
-            await unitOfWork.CompleteAsync(cancellationToken);
+            try
+            {
+                unitOfWork.Customers.Remove(customer);
+                await unitOfWork.CompleteAsync(cancellationToken);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            
         }
         
     }

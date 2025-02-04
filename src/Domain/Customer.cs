@@ -39,14 +39,14 @@ public sealed class Customer
     /// </summary>
     public decimal? Discount { get; private set; }
 
-    public static Customer Create(string name, string code, string address, decimal? discount)
+    public static Customer Create(string name, string address, decimal? discount)
     {
         if (discount != null && (discount < 0 || discount > 100))
         {
             throw new ArgumentException("Скидка не может быть отрицательной или больше 100");
         }
-
-        return new(Guid.NewGuid(), name, code, address, discount);
+        
+        return new(Guid.NewGuid(), name, GenerateCustomerCode(), address, discount);
     }
     
     public void Update(string name, string code, string address, decimal? discount)
@@ -60,5 +60,15 @@ public sealed class Customer
         Code = code;
         Address = address;
         Discount = discount;
+    }
+    
+    private static string GenerateCustomerCode()
+    {
+        var year = DateTime.Now.Year;
+
+        Random random = new Random();
+        int number = random.Next(1000, 10000);
+
+        return $"{number}-{year}";
     }
 }
